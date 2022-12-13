@@ -23,6 +23,7 @@ export const usePokeApi = (id: number = 1) => {
   useEffect(() => {
     setUrl("https://pokeapi.co/api/v2/pokemon/" + id);
     fetchPoke();
+    // eslint-disable-next-line 
   }, [id]);
 
   return { data, isLoading, isError };
