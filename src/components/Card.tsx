@@ -4,13 +4,9 @@ import { PokeEntity, PokeResponse } from "../model/pokemon";
 
 export const Card = (props: { poke: PokeResponse }) => {
   const [poke, setPoke] = useState<PokeEntity>();
-  const [color, setColor] = useState("");
-  const [secondColor, setSecondColor] = useState("");
   const pokeColor = useTypeColors();
 
   useEffect(() => {
-    setColor('');
-    setSecondColor('');
     if (props.poke?.stats) {
       setPoke({
         name: props.poke?.name ?? "",
@@ -22,31 +18,27 @@ export const Card = (props: { poke: PokeResponse }) => {
         types: props.poke?.types.map((type) => {
           return type.type.name;
         }),
+        color: pokeColor.filter((color) => color.name === poke?.types[0])[0]?.color,
+        secondColor: poke?.types && poke?.types?.length > 1 ? pokeColor.filter((color) => color.name === poke?.types[1])[0]?.color : 'rgba(255,255,255,1)'
+
       });
-    }
-    setColor(
-      pokeColor.filter((color) => color.name === poke?.types[0])[0]?.color
-    );
-    if (poke?.types && poke?.types?.length > 1) {
-      setSecondColor(
-        pokeColor.filter((color) => color.name === poke?.types[1])[0]?.color
-      );
-    } else {
-      setSecondColor("rgba(255,255,255,1)");
     }
     // eslint-disable-next-line
   }, [props]);
 
   return (
-    <div
+    <>
+    {
+        poke?.color && poke?.secondColor ? (
+            <div
       className="card"
       style={{
         background:
-          "radial-gradient(circle, " + color + " 0%, " + secondColor + " 100%)",
+          "radial-gradient(circle, " + poke?.color + " 0%, " +  poke?.secondColor + " 100%)",
       }}
     >
       <p className="hp">
-        <span>HP</span> {poke?.hp}
+        <span>HP</span> {poke?.hp} ❤️
       </p>
       <img src={poke?.imgSrc} alt={poke?.name} />
       <h2 className="poke-name">{poke?.name}</h2>
@@ -68,18 +60,23 @@ export const Card = (props: { poke: PokeResponse }) => {
       }
       <div className="stats">
         <div>
-          <h3>{poke?.attack}</h3>
+          <h3>{poke?.attack} ⚔️</h3>
           <p>Attack</p>
         </div>
         <div>
-          <h3>{poke?.defense}</h3>
+          <h3>{poke?.defense} 🛡</h3>
           <p>Defense</p>
         </div>
         <div>
-          <h3>{poke?.speed}</h3>
+          <h3>{poke?.speed} 🏃‍♂️</h3>
           <p>Speed</p>
         </div>
       </div>
     </div>
+        ):  <h1>LOADING...</h1>
+    }
+    </>
+    
+    
   );
 };

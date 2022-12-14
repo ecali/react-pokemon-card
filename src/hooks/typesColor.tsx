@@ -64,6 +64,11 @@ export const useTypeColors = () => {
             name: 'water',
             color: '#0190FF'
         },
+        {
+            name: 'steel',
+            color: '#71797E'
+        },
+
 
     ]
 };

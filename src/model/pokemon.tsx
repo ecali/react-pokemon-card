@@ -6,6 +6,8 @@ export interface PokeEntity {
   speed: number;
   defense: number;
   types: string[];
+  color: string, 
+  secondColor: string
 }
 
 export interface PokeResponse {
